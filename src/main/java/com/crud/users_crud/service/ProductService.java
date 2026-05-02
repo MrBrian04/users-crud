@@ -30,6 +30,7 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
 
+    @Transactional
     public Product update(Long id, Product product) {
 
         Product existingProduct = productRepository.findById(id)
