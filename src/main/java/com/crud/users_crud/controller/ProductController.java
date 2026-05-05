@@ -7,6 +7,8 @@ import com.crud.users_crud.entity.Product;
 import com.crud.users_crud.service.ProductService;
 // Importa Lombok para inyeccion por constructor.
 import lombok.RequiredArgsConstructor;
+// Importa anotación @Valid para validar entrada.
+import jakarta.validation.Valid;
 // Importa estado HTTP y ResponseEntity.
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,9 @@ public class ProductController {
 
     // Mapea POST /api/products para crear un producto.
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
+    // @Valid: Valida el product antes de pasarlo al servicio usando anotaciones.
+    // Si falla, GlobalExceptionHandler devuelve 400 con errores de validación.
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
         // Delegar creacion al servicio.
         Product created = productService.create(product);
         // Responder 201 Created con el producto persistido.
@@ -63,7 +67,8 @@ public class ProductController {
 
     // Mapea PUT /api/products/{id} para actualizar un producto.
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateByid(@PathVariable Long id, @RequestBody Product product) {
+    // @Valid: Valida el product actualizado antes de pasarlo al servicio.
+    public ResponseEntity<Product> updateByid(@PathVariable Long id, @Valid @RequestBody Product product) {
         // Delegar la actualizacion al servicio.
         Product updated = productService.update(id, product);
         // Responder 200 OK con el producto actualizado.

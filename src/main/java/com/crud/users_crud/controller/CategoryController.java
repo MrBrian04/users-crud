@@ -7,6 +7,8 @@ import com.crud.users_crud.entity.Category;
 import com.crud.users_crud.service.CategoryService;
 // Importa Lombok para inyeccion por constructor.
 import lombok.RequiredArgsConstructor;
+// Importa anotación @Valid para validar entrada.
+import jakarta.validation.Valid;
 // Importa estado HTTP y ResponseEntity.
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,9 @@ public class CategoryController {
 
     // Mapea POST /api/categories para crear una categoria.
     @PostMapping
-    public ResponseEntity<Category> create(@RequestBody Category category) {
+    // @Valid: Valida la categoría antes de pasarla al servicio usando anotaciones.
+    // Si falla, GlobalExceptionHandler devuelve 400 con errores de validación.
+    public ResponseEntity<Category> create(@Valid @RequestBody Category category) {
         // Delegar creacion al servicio.
         Category created = categoryService.create(category);
         // Responder 201 Created con la categoria persistida.
@@ -60,14 +64,15 @@ public class CategoryController {
         return ResponseEntity.ok(category);
     }
 
-    // Mapea PUT /api/categories/{id} para actualizar una categoria.
-    @PutMapping("/{id}")
-    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category) {
-        // Delegar actualizacion al servicio.
-        Category updated = categoryService.update(id, category);
-        // Responder 200 OK con la categoria actualizada.
-        return ResponseEntity.ok(updated);
-    }
+     // Mapea PUT /api/categories/{id} para actualizar una categoria.
+     @PutMapping("/{id}")
+     // @Valid: Valida la categoría actualizada antes de pasarla al servicio.
+     public ResponseEntity<Category> update(@PathVariable Long id, @Valid @RequestBody Category category) {
+         // Delegar actualizacion al servicio.
+         Category updated = categoryService.update(id, category);
+         // Responder 200 OK con la categoria actualizada.
+         return ResponseEntity.ok(updated);
+     }
 
     // Mapea DELETE /api/categories/{id} para eliminar una categoria.
     // Si no existe: GlobalExceptionHandler captura la excepcion y devuelve 404 con mensaje.

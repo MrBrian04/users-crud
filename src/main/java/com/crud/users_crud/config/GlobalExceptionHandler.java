@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.ResponseEntity;
 // Importa HttpStatus para códigos de respuesta.
 import org.springframework.http.HttpStatus;
+// Importa excepción de validación de Spring.
+import org.springframework.web.bind.MethodArgumentNotValidException;
+// Importa stream para procesar errores de validación.
+import java.util.stream.Collectors;
 
 // Anotacion que marca esta clase como manejador GLOBAL de excepciones para todos los controllers REST.
 // Cualquier excepción que se lance en los controllers será interceptada e procesada aqui.
@@ -35,7 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Maneja excepciones de validación de negocio (IllegalArgumentException).
+     * Maneja excepciones de validación de anotaciones (IllegalArgumentException).
      * Retorna 400 Bad Request con el mensaje de validación.
      *
      * @param ex la excepción capturada
@@ -46,6 +50,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         // 400 Bad Request: datos inválidos o conflicto de negocio.
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    /**
+     * Maneja excepciones de validación de anotaciones (@NotNull, @Email, @Size, etc).
+     * Agregrega todos los errores de validación y devuelve 400 con los mensajes.
+     *
+     * @param ex la excepción capturada con los errores de validación
+     * @return respuesta HTTP 400 con lista de errores
+     */
+    // Detecta cuando Spring valida anotaciones y fallan (@NotNull, @Email, @Size, etc).
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+        // Extrae TODOS los errores de validación en un String legible.
+        // Ejemplo: "name: El nombre no puede estar vacío; email: El email debe ser válido"
+        String errors = ex.getBindingResult()
+                .getFieldErrors()  // Obtiene todos los errores de campos
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())  // Formatea cada error
+                .collect(Collectors.joining("; "));  // Junta todos con "; "
+
+        // 400 Bad Request: datos no cumplen validaciones de anotaciones.
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 }
 

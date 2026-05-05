@@ -10,6 +10,8 @@ import com.crud.users_crud.entity.User;
 import com.crud.users_crud.service.UserService;
 // Importa Lombok para generar el constructor con dependencias finales.
 import lombok.RequiredArgsConstructor;
+// Importa anotación @Valid para validar entrada.
+import jakarta.validation.Valid;
 // Importa enums de estado HTTP.
 import org.springframework.http.HttpStatus;
 // Importa ResponseEntity para controlar status y body.
@@ -45,8 +47,9 @@ public class UserController {
      */
     // Mapea HTTP POST a este metodo.
     @PostMapping
-    // Recibe JSON en el body y lo deserializa a User; devuelve ResponseEntity<User>.
-    public ResponseEntity<User> create(@RequestBody User user) {
+    // @Valid: Valida el user antes de pasarlo al servicio usando anotaciones (@NotNull, @Email, etc).
+    // Si falla, GlobalExceptionHandler.handleMethodArgumentNotValid() devuelve 400 con errores.
+    public ResponseEntity<User> create(@Valid @RequestBody User user) {
         // Llama al servicio para crear y validar la entidad.
         User created = userService.create(user);
         // Responde 201 Created con el usuario persistido.
@@ -91,7 +94,8 @@ public class UserController {
     // Mapea HTTP PUT con variable de path.
     @PutMapping("/{id}")
     // Recibe el id desde la URL y el JSON desde el body.
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
+    // @Valid: Valida el user actualizado antes de pasarlo al servicio.
+    public ResponseEntity<User> update(@PathVariable Long id, @Valid @RequestBody User user) {
         // Delegar la actualizacion al servicio.
         User updated = userService.update(id, user);
         // Responde 200 OK con el usuario actualizado.
