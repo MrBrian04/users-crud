@@ -3,13 +3,23 @@ package com.crud.users_crud.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "suppliers")
-@Data
+// Genera getters para todos los campos (de Lombok). Seguro con JPA y relaciones futuras.
+@Getter
+// Genera setters para todos los campos (de Lombok). Seguro con JPA y relaciones futuras.
+@Setter
+// Genera constructor vacio requerido por JPA.
 @NoArgsConstructor
+// Genera constructor con todos los campos.
 @AllArgsConstructor
+// Habilita el patron Builder para crear instancias.
 @Builder
 public class Supplier {
 

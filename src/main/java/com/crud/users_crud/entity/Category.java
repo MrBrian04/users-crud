@@ -15,13 +15,16 @@ import jakarta.validation.constraints.Size;
 // Importa Lombok para reducir boilerplate.
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 // Marca esta clase como entidad JPA.
 @Entity
-// Genera getters, setters, equals, hashCode y toString.
-@Data
+// Genera getters para todos los campos (de Lombok). Seguro con JPA.
+@Getter
+// Genera setters para todos los campos (de Lombok). Seguro con JPA.
+@Setter
 // Especifica el nombre de la tabla en la BD.
 @Table(name = "categories")
 // Genera constructor vacio requerido por JPA.

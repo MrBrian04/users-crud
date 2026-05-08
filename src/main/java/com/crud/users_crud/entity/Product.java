@@ -17,7 +17,8 @@ import jakarta.validation.constraints.Size;
 // Importa Lombok para reducir boilerplate.
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 // Importa BigDecimal para manejar dinero con precision.
@@ -27,8 +28,10 @@ import java.math.BigDecimal;
 @Entity
 // Especifica el nombre de la tabla en la BD.
 @Table(name = "products")
-// Genera getters, setters, equals, hashCode y toString.
-@Data
+// Genera getters para todos los campos (de Lombok). Seguro con JPA.
+@Getter
+// Genera setters para todos los campos (de Lombok). Seguro con JPA.
+@Setter
 // Genera constructor vacio requerido por JPA.
 @NoArgsConstructor
 // Genera constructor con todos los campos.
