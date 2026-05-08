@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 // Importa anotaciones de validación de Jakarta Bean Validation.
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 // Importa Lombok para reducir boilerplate.
@@ -42,11 +42,9 @@ public class Category {
     private Long id;
 
     // Nombre de la categoria, obligatorio.
-    // @NotNull: Nombre requerido.
-    // @NotEmpty: Nombre no puede estar vacío.
+    // @NotBlank: No nulo, no vacío y no solo espacios.
     // @Size(min=2, max=100): Valida longitud del nombre.
-    @NotNull(message = "El nombre de la categoría es requerido")
-    @NotEmpty(message = "El nombre de la categoría no puede estar vacío")
+    @NotBlank(message = "El nombre de la categoría es requerido")
     @Size(min = 2, max = 100, message = "El nombre debe tener entre 2 y 100 caracteres")
     @Column(name = "name", nullable = false, length = 100)
     private String name;

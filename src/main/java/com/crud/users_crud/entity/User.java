@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 // Importa Lombok para reducir boilerplate.
@@ -48,21 +48,17 @@ public class User {
     private Long id;
 
     // Mapea el nombre a una columna no nula con longitud maxima.
-    // @NotNull: El nombre no puede ser null (validación de BD).
-    // @NotEmpty: El nombre no puede estar vacío (validación de BD + negocio).
+    // @NotBlank: No nulo, no vacío y no solo espacios en blanco.
     // @Size(min=2, max=100): Valida que el nombre tenga entre 2 y 100 caracteres.
-    @NotNull(message = "El nombre es requerido")
-    @NotEmpty(message = "El nombre no puede estar vacío")
+    @NotBlank(message = "El nombre es requerido")
     @Size(min = 2, max = 100, message = "El nombre debe tener entre 2 y 100 caracteres")
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     // Mapea el email; debe ser unico y no nulo.
-    // @NotNull: Email requerido.
-    // @NotEmpty: Email no puede estar vacío.
+    // @NotBlank: No nulo, no vacío y no solo espacios.
     // @Email: Valida que sea un formato de email válido (ej: usuario@dominio.com).
-    @NotNull(message = "El email es requerido")
-    @NotEmpty(message = "El email no puede estar vacío")
+    @NotBlank(message = "El email es requerido")
     @Email(message = "El email debe ser válido")
     @Column(name = "email", nullable = false, unique = true, length = 150)
     private String email;
