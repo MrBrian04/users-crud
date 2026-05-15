@@ -1,38 +1,8 @@
-# Raiz de configuracion de Spring.
 spring:
-  # Configuracion basica de la aplicacion.
   application:
-    # Nombre de la aplicacion (aparece en logs y metrics).
     name: users-crud
+  profiles:
+    active: dev
 
-  # Configuracion de la fuente de datos (conexion a BD).
-  datasource:
-    # URL JDBC para MySQL con parametros comunes de conexion.
-    url: jdbc:mysql://localhost:3306/users_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-    # Usuario de la BD.
-    username: root
-    # Password inyectado desde variable de entorno o archivo externo.
-    password: ${password}
-    # Driver JDBC de MySQL.
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  # Configuracion de JPA/Hibernate.
-  jpa:
-    # Configuracion de Hibernate.
-    hibernate:
-      # Crea y luego elimina las tablas al iniciar/detener (solo dev).
-      ddl-auto: create-drop
-    # Muestra SQL generado en consola.
-    show-sql: true
-    # Propiedades adicionales de Hibernate.
-    properties:
-      hibernate:
-        # Formatea el SQL para lectura humana.
-        format_sql: true
-        # Dialecto SQL para MySQL.
-        dialect: org.hibernate.dialect.MySQLDialect
-
-# Configuracion del servidor embebido.
 server:
-  # Puerto HTTP donde escucha la app.
   port: 8080
