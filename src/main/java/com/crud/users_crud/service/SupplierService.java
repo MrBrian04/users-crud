@@ -1,5 +1,6 @@
 package com.crud.users_crud.service;
 
+import com.crud.users_crud.exception.ValidationException;
 import com.crud.users_crud.entity.Supplier;
 import com.crud.users_crud.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class SupplierService {
     @Transactional
     public Supplier create(Supplier supplier) {
         if (supplierRepository.findByName(supplier.getName()).isPresent()) {
-            throw new IllegalArgumentException("Ya existe un proveedor con el nombre: " + supplier.getName());
+            throw new ValidationException("Ya existe un proveedor con el nombre: " + supplier.getName());
         }
         return supplierRepository.save(supplier);
     }
@@ -27,8 +27,6 @@ public class SupplierService {
     public List<Supplier> getAll() {
         return supplierRepository.findAll();
     }
-
-
 
     @Transactional(readOnly = true)
     public Supplier getById(Long id) {

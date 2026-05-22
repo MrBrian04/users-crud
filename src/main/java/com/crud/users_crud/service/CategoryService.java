@@ -1,5 +1,6 @@
 package com.crud.users_crud.service;
 
+import com.crud.users_crud.exception.ValidationException;
 import com.crud.users_crud.entity.Category;
 import com.crud.users_crud.repository.CategoryRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class CategoryService {
     @Transactional
     public Category create(Category category) {
         if (categoryRepository.findByName(category.getName()).isPresent()) {
-            throw new IllegalArgumentException("La categoria ya existe con el nombre: " + category.getName());
+            throw new ValidationException("La categoria ya existe con el nombre: " + category.getName());
         }
         return categoryRepository.save(category);
     }
@@ -54,4 +55,3 @@ public class CategoryService {
 
 
 }
-

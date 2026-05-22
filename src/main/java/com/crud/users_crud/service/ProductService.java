@@ -1,5 +1,6 @@
 package com.crud.users_crud.service;
 
+import com.crud.users_crud.exception.ValidationException;
 import com.crud.users_crud.entity.Product;
 import com.crud.users_crud.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class ProductService {
     @Transactional
     public Product create(Product product) {
         if (productRepository.findByName(product.getName()).isPresent()) {
-            throw new IllegalArgumentException("Ya existe el producto con el nombre: " + product.getName());
+            throw new ValidationException("Ya existe el producto con el nombre: " + product.getName());
         }
         return productRepository.save(product);
     }

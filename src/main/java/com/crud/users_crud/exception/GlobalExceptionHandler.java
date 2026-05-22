@@ -1,5 +1,6 @@
-package com.crud.users_crud.config;
+package com.crud.users_crud.exception;
 
+import com.crud.users_crud.exception.ValidationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,11 @@ import java.util.stream.Collectors;
 // Manejo global de excepciones para controllers REST.
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> handleValidationException(ValidationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {

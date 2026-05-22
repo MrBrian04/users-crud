@@ -1,5 +1,6 @@
 package com.crud.users_crud.service;
 
+import com.crud.users_crud.exception.ValidationException;
 import com.crud.users_crud.entity.User;
 import com.crud.users_crud.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class UserService {
     @Transactional
     public User create(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Ya existe un usuario con el email: " + user.getEmail());
+            throw new ValidationException("Ya existe un usuario con el email: " + user.getEmail());
         }
         return userRepository.save(user);
     }

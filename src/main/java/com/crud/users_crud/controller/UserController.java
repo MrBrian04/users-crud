@@ -3,7 +3,6 @@ package com.crud.users_crud.controller;
 import com.crud.users_crud.entity.User;
 import com.crud.users_crud.service.UserService;
 import lombok.RequiredArgsConstructor;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +25,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> create(@Valid @RequestBody User user) {
+    public ResponseEntity<User> create(@RequestBody User user) {
         User created = userService.create(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -44,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @Valid @RequestBody User user) {
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
         User updated = userService.update(id, user);
         return ResponseEntity.ok(updated);
     }

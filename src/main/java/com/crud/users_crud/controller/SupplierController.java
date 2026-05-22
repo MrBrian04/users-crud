@@ -2,7 +2,6 @@ package com.crud.users_crud.controller;
 
 import com.crud.users_crud.entity.Supplier;
 import com.crud.users_crud.service.SupplierService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,27 +17,24 @@ public class SupplierController {
     private final SupplierService supplierService;
 
     @PostMapping
-    public ResponseEntity<Supplier> create(@Valid @RequestBody Supplier supplier) {
+    public ResponseEntity<Supplier> create(@RequestBody Supplier supplier) {
         Supplier created = supplierService.create(supplier);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
     public ResponseEntity<List<Supplier>> getAll() {
-        List<Supplier> suppliers = supplierService.getAll();
-        return ResponseEntity.ok(suppliers);
+        return ResponseEntity.ok(supplierService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Supplier> getById(@PathVariable Long id) {
-        Supplier supplier = supplierService.getById(id);
-        return ResponseEntity.ok(supplier);
+        return ResponseEntity.ok(supplierService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Supplier> update(@PathVariable Long id, @Valid @RequestBody Supplier supplier) {
-        Supplier updated = supplierService.update(id, supplier);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<Supplier> update(@PathVariable Long id, @RequestBody Supplier supplier) {
+        return ResponseEntity.ok(supplierService.update(id, supplier));
     }
 
     @DeleteMapping("/{id}")
