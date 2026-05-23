@@ -10,20 +10,20 @@ import jakarta.persistence.Table;
 
 // Entidad JPA para usuarios.
 @Entity
-@Table(name = "users")
+@Table(name = "usuarios")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "nombre", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "email", nullable = false, unique = true, length = 150)
+    @Column(name = "correo_electronico", nullable = false, unique = true, length = 150)
     private String email;
 
-    @Column(name = "age")
+    @Column(name = "edad")
     private Integer age;
 
     // Constructor vacio requerido por JPA.
