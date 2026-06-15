@@ -6,6 +6,7 @@ import com.crud.users_crud.domain.port.in.UserUseCase;
 import com.crud.users_crud.infrastructure.adapter.in.web.dto.UserRequest;
 import com.crud.users_crud.infrastructure.adapter.in.web.dto.UserResponse;
 import com.crud.users_crud.infrastructure.adapter.in.web.mapper.UserWebMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class UserController {
     private final UserWebMapper userWebMapper;
 
     @PostMapping
-    public ResponseEntity<UserResponse> create(@RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest request) {
         User created = userUseCase.register(userWebMapper.toModel(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(userWebMapper.toResponse(created));
     }
@@ -41,8 +42,13 @@ public class UserController {
         return ResponseEntity.ok(userWebMapper.toResponse(userUseCase.findById(id)));
     }
 
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<java.util.Map<String, Boolean>> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(java.util.Map.of("exists", userUseCase.existsById(id)));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody UserRequest request) {
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @Valid @RequestBody UserRequest request) {
         userUseCase.update(id, userWebMapper.toModel(request));
         User updatedUser = userUseCase.findById(id);
 

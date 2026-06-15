@@ -49,6 +49,12 @@ public class UserService implements UserUseCase {
 
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
     @Transactional
     @Override
     public void delete(Long id) {

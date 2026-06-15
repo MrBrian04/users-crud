@@ -15,4 +15,6 @@ public interface UserUseCase {
     void update(Long id, User user);
 
     void delete(Long id);
+
+    boolean existsById(Long id);
 }

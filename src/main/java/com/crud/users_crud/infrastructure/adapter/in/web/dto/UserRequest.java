@@ -1,9 +1,15 @@
 package com.crud.users_crud.infrastructure.adapter.in.web.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class UserRequest {
 
+    @NotBlank(message = "El nombre es obligatorio.")
     private String name;
+
+    @NotBlank(message = "Se requiere correo electronico.")
     private String email;
+
     private Integer age;
 
     public UserRequest() {}
